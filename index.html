@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Repositório do Professor | Modelo Studio</title>
+<title>Repositório do Professor | AulaStudio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23151517'/%3E%3Cpath d='M15 17h24a10 10 0 0 1 10 10v20H25a10 10 0 0 1-10-10V17z' fill='%23BDAAAD'/%3E%3Cpath d='M24 24h17v5H24zm0 10h20v5H24z' fill='%2346324D'/%3E%3Ccircle cx='48' cy='17' r='7' fill='%23695D8B'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -65,6 +66,26 @@
     margin-bottom: 10px;
   }
   .brand span { color: var(--accent2); }
+  .brand-wrap, .sidebar-brand-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-mark {
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+    display: inline-grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: var(--surface3);
+    box-shadow: 0 14px 30px rgba(0,0,0,.28);
+    flex: 0 0 auto;
+  }
+  .logo-mark svg { width: 29px; height: 29px; display: block; }
+  .sidebar-brand-wrap .logo-mark { width: 40px; height: 40px; border-radius: 13px; }
+  .sidebar-brand-wrap .logo-mark svg { width: 25px; height: 25px; }
+
   .hero h1 {
     font-size: 30px;
     line-height: 1.15;
@@ -513,7 +534,16 @@ body {
 <section class="welcome" id="welcome-screen">
   <div class="welcome-card">
     <div class="hero">
-      <div class="brand">Aula<span>Studio</span></div>
+      <div class="brand-wrap">
+        <div class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 17h25a10 10 0 0 1 10 10v20H25a10 10 0 0 1-10-10V17z" fill="currentColor" opacity="0.96"/>
+            <path d="M25 25h17M25 34h20" stroke="#151517" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="49" cy="17" r="7" fill="#151517" opacity="0.55"/>
+          </svg>
+        </div>
+        <div class="brand">Aula<span>Studio</span></div>
+      </div>
       <p>Organizador de materiais, planos de aula, exercícios, projetos e cronogramas para o professor.</p>
       <h1>Versão Studio com edição de conteúdo, materiais prontos e conexão protegida.</h1>
       <p>Use sem configurar nada, salvando no navegador, ou conecte ao Firebase para sincronizar em nuvem. A conexão com o Firebase pode ser protegida por senha para evitar alterações indevidas nas configurações.</p>
@@ -555,8 +585,19 @@ body {
 <section class="app" id="app-screen">
   <aside class="sidebar">
     <div class="sidebar-header">
-      <div class="sidebar-logo">Aula<span>Studio</span></div>
-      <div class="sidebar-sub">Central criativa de materiais</div>
+      <div class="sidebar-brand-wrap">
+        <div class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 17h25a10 10 0 0 1 10 10v20H25a10 10 0 0 1-10-10V17z" fill="currentColor" opacity="0.96"/>
+            <path d="M25 25h17M25 34h20" stroke="#151517" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="49" cy="17" r="7" fill="#151517" opacity="0.55"/>
+          </svg>
+        </div>
+        <div>
+          <div class="sidebar-logo">Aula<span>Studio</span></div>
+          <div class="sidebar-sub">Central criativa de materiais</div>
+        </div>
+      </div>
     </div>
     <div class="nav-scroll">
       <div class="sidebar-section">Navegação</div>
@@ -570,7 +611,6 @@ body {
     </div>
     <div class="sidebar-bottom">
       <button class="btn btn-sm" onclick="openFirebaseModal()">🔐 Conectar/Desconectar Firebase</button>
-      <button class="btn btn-sm btn-danger" onclick="resetAll()">Limpar dados</button>
     </div>
   </aside>
 
@@ -1258,13 +1298,6 @@ window.disconnectFirebase = async function() {
   showToast('Firebase desconectado. O repositório voltou para o modo local.');
 };
 
-window.resetAll = async function() {
-  if (!confirm('Deseja limpar os dados locais, configurações do Firebase e voltar para a tela inicial?')) return;
-  localStorage.removeItem(STORAGE_KEY);
-  localStorage.removeItem(CFG_KEY);
-  localStorage.removeItem(PASS_KEY);
-  location.reload();
-};
 
 window.copyVisibleSummary = async function() {
   const lines = visibleMaterials().map(m => {
