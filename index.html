@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Repositório do Professor | Modelo Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Paleta aplicada: #46324D, #695D8B, #484C69, #BDAAAD, #292D38, #151517 */
+    --bg: #151517;
+    --surface: #292D38;
+    --surface2: #484C69;
+    --surface3: #46324D;
+    --accent: #BDAAAD;
+    --accent-soft: rgba(189,170,173,.16);
+    --accent2: #695D8B;
+    --text: #F7F1EF;
+    --muted: #CBBFC2;
+    --border: rgba(189,170,173,.22);
+    --danger: #E29A9A;
+    --warning: #D9B37E;
+    --info: #AEB6D8;
+    --shadow: 0 20px 60px rgba(0,0,0,.34);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, rgba(189,170,173,.14), transparent 35%), var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+  }
+  button, input, select, textarea { font-family: inherit; }
+  button { cursor: pointer; }
+  .hidden { display: none !important; }
+
+  .welcome {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 28px;
+  }
+  .welcome-card {
+    width: min(980px, 100%);
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 20px;
+  }
+  .hero, .config-card {
+    background: rgba(17,24,39,.88);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 34px;
+  }
+  .brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    line-height: 1.05;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .brand span { color: var(--accent2); }
+  .hero h1 {
+    font-size: 30px;
+    line-height: 1.15;
+    margin: 20px 0 12px;
+  }
+  .hero p, .config-card p {
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .feature {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(255,255,255,.025);
+  }
+  .feature strong { display: block; margin-bottom: 4px; }
+  .feature small { color: var(--muted); line-height: 1.45; }
+  .config-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .tabs { display: flex; gap: 8px; margin: 18px 0; }
+  .tab-btn {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .tab-btn.active { background: var(--accent); color: #151517; border-color: var(--accent); }
+  .form-group { margin-bottom: 13px; }
+  .form-group label {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  input, select, textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: #1D1D22;
+    color: var(--text);
+    border-radius: 10px;
+    padding: 11px 13px;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(189,170,173,.14); }
+  textarea { min-height: 90px; resize: vertical; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-weight: 700;
+    transition: .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); border-color: var(--accent); }
+  .btn-primary { background: var(--accent); color: #151517; border-color: var(--accent); }
+  .btn-danger { background: rgba(226,154,154,.14); color: #F3CCCC; border-color: rgba(226,154,154,.42); }
+  .btn-warning { background: rgba(217,179,126,.14); color: #F0D6A6; border-color: rgba(217,179,126,.38); }
+  .btn-sm { padding: 7px 10px; font-size: 12px; border-radius: 8px; }
+  .btn-full { width: 100%; }
+  .hint {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+  .error { color: #F3CCCC; background: rgba(226,154,154,.12); border: 1px solid rgba(226,154,154,.38); padding: 10px; border-radius: 10px; margin-top: 10px; display: none; }
+
+  .app { display: none; }
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 284px;
+    background: rgba(17,24,39,.96);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+  }
+  .sidebar-header { padding: 24px 22px 18px; border-bottom: 1px solid var(--border); }
+  .sidebar-logo { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--accent); line-height: 1.1; }
+  .sidebar-logo span { color: var(--accent2); }
+  .sidebar-sub { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; }
+  .nav-scroll { overflow: auto; padding-bottom: 16px; }
+  .sidebar-section { padding: 18px 22px 8px; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px 10px 22px;
+    border-left: 3px solid transparent;
+    color: var(--text);
+    transition: .15s ease;
+    user-select: none;
+  }
+  .nav-item:hover, .nav-item.active { background: var(--accent-soft); color: var(--accent); border-left-color: var(--accent); }
+  .nav-dot { width: 10px; height: 10px; border-radius: 999px; flex: 0 0 auto; }
+  .nav-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+  .nav-sub { color: var(--muted); font-size: 11px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nav-actions { display: flex; gap: 6px; opacity: .72; flex: 0 0 auto; }
+  .nav-item:hover .nav-actions, .nav-item.active .nav-actions { opacity: 1; }
+  .icon-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.035);
+    color: var(--text);
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: .15s ease;
+  }
+  .icon-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+  .icon-btn.danger:hover { border-color: rgba(226,154,154,.65); color: #F3CCCC; background: rgba(226,154,154,.12); }
+  .sidebar-bottom { padding: 16px 18px; border-top: 1px solid var(--border); margin-top: auto; display: grid; gap: 9px; }
+
+  .main { margin-left: 284px; min-height: 100vh; }
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 70;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(11,16,32,.86);
+    backdrop-filter: blur(12px);
+  }
+  .search { flex: 1; position: relative; }
+  .search input { padding-left: 38px; }
+  .search span { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter {
+    padding: 8px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .filter.active, .filter:hover { background: var(--accent); color: #151517; border-color: var(--accent); }
+  .sync { color: var(--muted); font-size: 12px; border: 1px solid var(--border); padding: 7px 10px; border-radius: 999px; white-space: nowrap; }
+  .sync.saving { color: var(--accent); border-color: var(--accent); }
+  .content { padding: 30px; }
+  .page-head { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; margin-bottom: 24px; }
+  .page-title { font-family: 'DM Serif Display', serif; font-size: 36px; line-height: 1.1; }
+  .page-subtitle { color: var(--muted); margin-top: 7px; line-height: 1.5; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .stat {
+    background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 30px; color: var(--accent); }
+  .stat-label { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .section-title { font-size: 18px; font-weight: 800; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; }
+  .card {
+    position: relative;
+    overflow: hidden;
+    background: rgba(17,24,39,.84);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 18px;
+    transition: .18s ease;
+  }
+  .card:hover { transform: translateY(-2px); border-color: rgba(189,170,173,.55); box-shadow: 0 14px 30px rgba(0,0,0,.18); }
+  .bar { position: absolute; inset: 0 0 auto 0; height: 4px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #F7F1EF;
+    margin-bottom: 12px;
+  }
+  .type-slide { background: #484C69; }
+  .type-video { background: #695D8B; }
+  .type-exerc { background: #46324D; }
+  .type-plano { background: #BDAAAD; color: #151517; }
+  .type-projeto { background: #292D38; }
+  .type-avaliacao { background: #151517; }
+  .card h3 { font-size: 17px; line-height: 1.25; margin-bottom: 8px; }
+  .card p { color: var(--muted); line-height: 1.55; font-size: 13px; min-height: 42px; }
+  .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .pill { font-size: 11px; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 4px 8px; }
+  .competencias {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.025);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .card-actions { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; align-items: center; }
+  .left-actions, .right-actions { display: flex; gap: 7px; flex-wrap: wrap; }
+  .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--muted);
+    padding: 54px 18px;
+    border: 1px dashed var(--border);
+    border-radius: 20px;
+    background: rgba(255,255,255,.02);
+  }
+  .empty strong { display: block; color: var(--text); font-size: 18px; margin-bottom: 6px; }
+
+  .drawer-overlay, .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(5px);
+    z-index: 200;
+    display: none;
+  }
+  .drawer-overlay.open, .modal-overlay.open { display: block; }
+  .drawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(720px, 96vw);
+    height: 100%;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: auto;
+  }
+  .drawer-head { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: 20px; }
+  .drawer-title { font-size: 24px; font-weight: 800; line-height: 1.2; }
+  .drawer-body { padding: 24px; display: grid; gap: 18px; }
+  .detail-block { border: 1px solid var(--border); border-radius: 16px; background: rgba(255,255,255,.025); padding: 16px; }
+  .detail-block h4 { margin-bottom: 8px; color: var(--accent); }
+  .detail-block p, .detail-block li { color: var(--muted); line-height: 1.65; }
+  .detail-block ul { padding-left: 18px; }
+
+  .modal-overlay { display: none; align-items: center; justify-content: center; padding: 18px; }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    width: min(760px, 96vw);
+    max-height: 92vh;
+    overflow: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+  }
+  .modal-head { padding: 22px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .modal-title { font-size: 22px; font-weight: 800; }
+  .modal-body { padding: 24px; }
+  .modal-actions { padding: 0 24px 24px; display: flex; justify-content: flex-end; gap: 10px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+  .toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 300;
+    background: #151517;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 16px;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: .25s ease;
+    pointer-events: none;
+  }
+  .toast.show { transform: none; opacity: 1; }
+
+  @media (max-width: 980px) {
+    .welcome-card { grid-template-columns: 1fr; }
+    .sidebar { position: static; width: auto; height: auto; }
+    .app { display: none; }
+    .main { margin-left: 0; }
+    .topbar { flex-direction: column; align-items: stretch; }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .page-head { flex-direction: column; }
+    .actions { justify-content: flex-start; }
+  }
+  @media (max-width: 620px) {
+    .hero, .config-card, .content { padding: 22px; }
+    .feature-grid, .form-row, .form-row-3, .stats { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr; }
+    .page-title { font-size: 30px; }
+  }
+
+/* ===== VARIANTE VISUAL GERADA ===== */
+
+:root {
+  --bg: #151517;
+  --surface: rgba(41,45,56,.78);
+  --surface2: rgba(72,76,105,.62);
+  --surface3: rgba(70,50,77,.78);
+  --accent: #BDAAAD;
+  --accent-soft: rgba(189,170,173,.18);
+  --accent2: #695D8B;
+  --text: #FFF8F7;
+  --muted: #D9CCD0;
+  --border: rgba(189,170,173,.24);
+  --shadow: 0 24px 80px rgba(0,0,0,.42);
+}
+body {
+  background:
+    radial-gradient(circle at 12% 6%, rgba(105,93,139,.38), transparent 34%),
+    radial-gradient(circle at 88% 18%, rgba(189,170,173,.18), transparent 30%),
+    linear-gradient(135deg, #151517 0%, #292D38 48%, #46324D 100%);
+}
+.sidebar {
+  width: 286px;
+  background: rgba(21,21,23,.72);
+  backdrop-filter: blur(18px);
+  border-right: 1px solid rgba(189,170,173,.20);
+}
+.main { margin-left: 286px; }
+.sidebar-header { padding: 30px 24px 22px; }
+.sidebar-logo { font-size: 26px; }
+.sidebar-sub::after { content: ' • Studio'; color: var(--accent); }
+.nav-item {
+  margin: 4px 14px;
+  border-radius: 16px;
+  border-left: 0;
+  padding: 11px 14px;
+}
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(189,170,173,.25), rgba(105,93,139,.22));
+  box-shadow: inset 0 0 0 1px rgba(189,170,173,.22);
+}
+.nav-actions button { border-radius: 12px; background: rgba(255,255,255,.04); }
+.topbar {
+  margin: 18px 24px 0;
+  border-radius: 22px;
+  border: 1px solid rgba(189,170,173,.20);
+  background: rgba(21,21,23,.58);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 18px;
+}
+.content { padding: 34px 38px; }
+.hero {
+  background: linear-gradient(135deg, rgba(189,170,173,.18), rgba(105,93,139,.18));
+  border: 1px solid rgba(189,170,173,.24);
+  border-radius: 30px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+.page-title { font-size: 42px; letter-spacing: -.03em; }
+.page-subtitle { max-width: 780px; line-height: 1.7; }
+.stat-card {
+  border-radius: 22px;
+  background: rgba(21,21,23,.45);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+.card {
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(41,45,56,.86), rgba(21,21,23,.70));
+  box-shadow: 0 18px 50px rgba(0,0,0,.22);
+}
+.card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 28px 80px rgba(0,0,0,.35);
+}
+.card-type, .filter-btn, .btn-sm, .sidebar-add, .sidebar-reset, .btn-save, .btn-cancel { border-radius: 999px; }
+.search-wrap input, .form-group input, .form-group select, .form-group textarea {
+  background: rgba(21,21,23,.58);
+  border-radius: 16px;
+}
+.modal {
+  border-radius: 28px;
+  background: rgba(41,45,56,.94);
+  backdrop-filter: blur(18px);
+}
+.toast { background: #BDAAAD; color: #151517; }
+@media (max-width: 880px) { .main { margin-left:0; } .topbar { margin: 0; border-radius:0; top:0; } }
+
+
+
+  /* NAVEGAÇÃO OCULTÁVEL */
+  .nav-toggle {
+    min-width: 42px;
+    height: 42px;
+    padding: 0 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.045);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: .18s ease;
+    flex: 0 0 auto;
+  }
+  .nav-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .sidebar, .main { transition: .22s ease; }
+  body.nav-hidden .sidebar {
+    transform: translateX(-105%);
+    pointer-events: none;
+  }
+  body.nav-hidden .main { margin-left: 0; }
+  body.nav-hidden .topbar { margin-left: 0; }
+  .topbar-actions { display:flex; gap:8px; flex-wrap:wrap; }
+  @media (max-width: 1100px) { .topbar-actions { width:100%; } }
+  @media (max-width: 880px) {
+    body.nav-hidden .topbar { margin-left: 0; }
+  }
+
+</style>
+</head>
+<body>
+
+<section class="welcome" id="welcome-screen">
+  <div class="welcome-card">
+    <div class="hero">
+      <div class="brand">Aula<span>Studio</span></div>
+      <p>Organizador de materiais, planos de aula, exercícios, projetos e cronogramas para o professor.</p>
+      <h1>Versão Studio com edição de conteúdo, materiais prontos e conexão protegida.</h1>
+      <p>Use sem configurar nada, salvando no navegador, ou conecte ao Firebase para sincronizar em nuvem. A conexão com o Firebase pode ser protegida por senha para evitar alterações indevidas nas configurações.</p>
+      <div class="feature-grid">
+        <div class="feature"><strong>CRUD completo</strong><small>Crie, edite, visualize e exclua disciplinas e materiais.</small></div>
+        <div class="feature"><strong>Conteúdo pedagógico</strong><small>Campos para objetivo, competências, carga horária, etapa e tags.</small></div>
+        <div class="feature"><strong>Materiais iniciais</strong><small>Cards prontos de banco de dados, front-end, back-end, APIs, Git e testes.</small></div>
+        <div class="feature"><strong>Firebase protegido</strong><small>Conecte ou desconecte o Firebase usando uma senha definida pelo professor.</small></div>
+      </div>
+    </div>
+
+    <div class="config-card">
+      <div class="config-title">Como deseja iniciar?</div>
+      <p>Para testar rapidamente, entre no modo local. Para usar em mais de um computador, configure o Firebase com uma senha de proteção.</p>
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-local" onclick="setStartMode('local')">Modo local</button>
+        <button class="tab-btn" id="tab-firebase" onclick="setStartMode('firebase')">Firebase</button>
+      </div>
+
+      <div id="local-box">
+        <button class="btn btn-primary btn-full" onclick="startLocal()">Entrar no repositório</button>
+        <div class="hint">Os dados ficarão salvos no navegador usando localStorage. Ideal para aula, teste e uso pessoal.</div>
+      </div>
+
+      <div id="firebase-box" class="hidden">
+        <div class="form-group"><label>API Key</label><input id="cfg-apiKey" placeholder="AIzaSy..." /></div>
+        <div class="form-group"><label>Auth Domain</label><input id="cfg-authDomain" placeholder="seu-projeto.firebaseapp.com" /></div>
+        <div class="form-group"><label>Project ID</label><input id="cfg-projectId" placeholder="seu-projeto" /></div>
+        <div class="form-group"><label>App ID</label><input id="cfg-appId" placeholder="1:123456:web:abc..." /></div>
+        <div class="form-group"><label>Senha de proteção</label><input id="cfg-password" type="password" placeholder="Crie ou informe a senha" /></div>
+        <button class="btn btn-primary btn-full" onclick="connectFirebase()">🔐 Conectar ao Firebase</button>
+        <div class="hint">No primeiro acesso, essa senha será salva neste navegador. Depois, ela será exigida para conectar, alterar ou desconectar o Firebase.</div>
+        <div class="error" id="config-error"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="app" id="app-screen">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">Aula<span>Studio</span></div>
+      <div class="sidebar-sub">Central criativa de materiais</div>
+    </div>
+    <div class="nav-scroll">
+      <div class="sidebar-section">Navegação</div>
+      <div id="nav-list"></div>
+      <div class="sidebar-section">Ações rápidas</div>
+      <div style="padding:0 18px;display:grid;gap:8px;">
+        <button class="btn btn-sm" onclick="openDisciplinaModal()">＋ Nova disciplina</button>
+        <button class="btn btn-sm" onclick="openMaterialModal()">＋ Novo material</button>
+        <button class="btn btn-sm btn-warning" onclick="seedData(true)">↻ Restaurar exemplos</button>
+      </div>
+    </div>
+    <div class="sidebar-bottom">
+      <button class="btn btn-sm" onclick="openFirebaseModal()">🔐 Conectar/Desconectar Firebase</button>
+      <button class="btn btn-sm btn-danger" onclick="resetAll()">Limpar dados</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <button class="nav-toggle" id="nav-toggle" onclick="toggleNavigation()" title="Ocultar ou mostrar navegação">☰</button>
+      <div class="search"><span>🔍</span><input id="search-input" placeholder="Buscar por título, descrição, tag ou competência..." oninput="renderContent()" /></div>
+      <div class="filter-row">
+        <button class="filter active" onclick="setFilter(this,'todos')">Todos</button>
+        <button class="filter" onclick="setFilter(this,'plano')">Planos</button>
+        <button class="filter" onclick="setFilter(this,'slide')">Slides</button>
+        <button class="filter" onclick="setFilter(this,'exerc')">Exercícios</button>
+        <button class="filter" onclick="setFilter(this,'projeto')">Projetos</button>
+        <button class="filter" onclick="setFilter(this,'avaliacao')">Avaliações</button>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-sm" onclick="openDisciplinaModal()">＋ Disciplina</button>
+        <button class="btn btn-sm btn-primary" onclick="openMaterialModal()">＋ Material</button>
+      </div>
+      <span class="sync" id="sync-badge">Local</span>
+    </div>
+
+    <div class="content">
+      <div class="page-head">
+        <div>
+          <div class="page-title" id="page-title">Todos os materiais</div>
+          <div class="page-subtitle" id="page-subtitle">Organize planos, aulas, exercícios e projetos por unidade curricular.</div>
+        </div>
+        <div class="actions">
+          <button class="btn" id="edit-disc-btn" onclick="editActiveDisc()" style="display:none;">✎ Editar disciplina</button>
+          <button class="btn btn-danger" id="delete-disc-btn" onclick="deleteActiveDisc()" style="display:none;">🗑 Excluir disciplina</button>
+          <button class="btn btn-primary" onclick="openMaterialModal()">＋ Adicionar material</button>
+          <button class="btn" onclick="copyVisibleSummary()">📋 Copiar resumo</button>
+        </div>
+      </div>
+
+      <div class="stats" id="stats-row"></div>
+      <div class="section-title" id="section-label">Materiais</div>
+      <div class="grid" id="material-grid"></div>
+    </div>
+  </main>
+</section>
+
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer(event)">
+  <div class="drawer" onclick="event.stopPropagation()">
+    <div class="drawer-head">
+      <div>
+        <div class="drawer-title" id="drawer-title"></div>
+        <div class="page-subtitle" id="drawer-subtitle"></div>
+      </div>
+      <button class="btn btn-sm" onclick="closeDrawer()">Fechar</button>
+    </div>
+    <div class="drawer-body" id="drawer-body"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-material">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="material-modal-title">Adicionar material</div>
+      <button class="btn btn-sm" onclick="closeModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="m-id" />
+      <div class="form-row-3">
+        <div class="form-group">
+          <label>Tipo</label>
+          <select id="m-tipo">
+            <option value="plano">📋 Plano de aula</option>
+            <option value="slide">📊 Slides / PDF</option>
+            <option value="exerc">📝 Exercício</option>
+            <option value="projeto">🚀 Projeto</option>
+            <option value="avaliacao">✅ Avaliação</option>
+            <option value="video">🎥 Vídeo</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Disciplina</label>
+          <select id="m-disciplina"></select>
+        </div>
+        <div class="form-group">
+          <label>Carga horária</label>
+          <input id="m-carga" placeholder="Ex: 3h30min" />
+        </div>
+      </div>
+      <div class="form-group"><label>Título</label><input id="m-titulo" placeholder="Ex: Aula 01 — Introdução ao Banco de Dados" /></div>
+      <div class="form-group"><label>Descrição</label><textarea id="m-desc" placeholder="Resumo do material, conteúdo trabalhado e finalidade pedagógica."></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Objetivo</label><textarea id="m-objetivo" placeholder="O que o aluno deverá desenvolver ao final do material?"></textarea></div>
+        <div class="form-group"><label>Competências / Capacidades</label><textarea id="m-competencias" placeholder="Capacidades técnicas e socioemocionais relacionadas."></textarea></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Conteúdo / Roteiro</label><textarea id="m-roteiro" placeholder="Etapas da aula, sequência didática ou tópicos do material."></textarea></div>
+        <div class="form-group"><label>Atividade prática</label><textarea id="m-atividade" placeholder="Proposta de exercício, desafio, estudo de caso ou projeto."></textarea></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Link / URL</label><input id="m-link" placeholder="https://..." /></div>
+        <div class="form-group"><label>Tags</label><input id="m-tags" placeholder="postgresql, sql, crud, backend" /></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModals()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveMaterial()">Salvar material</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-disciplina">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="disc-modal-title">Nova disciplina</div>
+      <button class="btn btn-sm" onclick="closeModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="d-id" />
+      <div class="form-row">
+        <div class="form-group"><label>Nome da disciplina</label><input id="d-nome" placeholder="Ex: Banco de Dados" /></div>
+        <div class="form-group"><label>Módulo / Turma</label><input id="d-turma" placeholder="Ex: 3º Período — Técnico" /></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Carga horária total</label><input id="d-carga" placeholder="Ex: 80h" /></div>
+        <div class="form-group"><label>Cor</label><input id="d-cor" type="color" value="#BDAAAD" /></div>
+      </div>
+      <div class="form-group"><label>Objetivo geral</label><textarea id="d-objetivo" placeholder="Objetivo geral da unidade curricular."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModals()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveDisciplina()">Salvar disciplina</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-firebase">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Conexão Firebase</div>
+      <button class="icon-btn" onclick="closeModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="hint" id="firebase-status-text" style="margin-bottom:16px;">Configure o Firebase para sincronizar os materiais em nuvem.</p>
+      <div class="form-row">
+        <div class="form-group"><label>API Key</label><input id="fb-apiKey" placeholder="AIzaSy..." /></div>
+        <div class="form-group"><label>Auth Domain</label><input id="fb-authDomain" placeholder="seu-projeto.firebaseapp.com" /></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Project ID</label><input id="fb-projectId" placeholder="seu-projeto" /></div>
+        <div class="form-group"><label>App ID</label><input id="fb-appId" placeholder="1:123456:web:abc..." /></div>
+      </div>
+      <div class="form-group"><label>Senha de proteção</label><input id="fb-password" type="password" placeholder="Informe a senha para conectar ou desconectar" /></div>
+      <div class="hint">A senha protege apenas esta tela de configuração no navegador. Para segurança real dos dados, configure regras de acesso no Firestore.</div>
+      <div class="error" id="firebase-modal-error"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModals()">Cancelar</button>
+      <button class="btn btn-danger" onclick="disconnectFirebase()">Desconectar Firebase</button>
+      <button class="btn btn-primary" onclick="connectFirebaseFromModal()">🔐 Conectar/Atualizar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, getDocs, addDoc, setDoc, deleteDoc, doc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const STORAGE_KEY = 'repoprof_v2_local_data';
+const CFG_KEY = 'repoprof_v2_firebase_cfg';
+const PASS_KEY = 'repoprof_v2_firebase_password_hash';
+
+const NAV_KEY = 'repoprof_v2_nav_hidden';
+
+function applyNavigationPreference() {
+  const saved = localStorage.getItem(NAV_KEY);
+  const hidden = saved === null ? true : saved === 'true';
+  document.body.classList.toggle('nav-hidden', hidden);
+  const btn = document.getElementById('nav-toggle');
+  if (btn) {
+    btn.textContent = hidden ? '☰ Menu' : '‹ Ocultar';
+    btn.title = hidden ? 'Mostrar navegação lateral' : 'Ocultar navegação lateral';
+  }
+}
+
+window.toggleNavigation = function() {
+  const hidden = !document.body.classList.contains('nav-hidden');
+  document.body.classList.toggle('nav-hidden', hidden);
+  localStorage.setItem(NAV_KEY, String(hidden));
+  applyNavigationPreference();
+};
+
+let mode = 'local';
+let db = null;
+let activeDisc = 'todos';
+let activeFilter = 'todos';
+let disciplinas = [];
+let materiais = [];
+let unsubDisc = null;
+let unsubMat = null;
+
+const initialDisciplinas = [
+  { id:'uc-git', nome:'Versionamento e Colaboração', turma:'1º Período', carga:'20h', cor:'#BDAAAD', objetivo:'Desenvolver capacidades básicas e socioemocionais para controle de versões e compartilhamento de projetos de TI.' },
+  { id:'uc-logica', nome:'Lógica de Programação', turma:'1º Período', carga:'128h', cor:'#484C69', objetivo:'Desenvolver capacidades relativas à lógica de programação para subsidiar o desenvolvimento de sistemas.' },
+  { id:'uc-front', nome:'Codificação para Front-End', turma:'2º Período', carga:'100h', cor:'#695D8B', objetivo:'Codificar interfaces baseadas em UX e UI em aplicações web, considerando as necessidades do usuário.' },
+  { id:'uc-apis', nome:'Interação com APIs', turma:'2º Período', carga:'40h', cor:'#46324D', objetivo:'Desenvolver aplicações que consumam serviços do servidor e exibam dados na aplicação front-end.' },
+  { id:'uc-back', nome:'Codificação para Back-End', turma:'3º Período', carga:'100h', cor:'#292D38', objetivo:'Codificar sistemas web server-side, considerando requisitos, segurança, implantação e documentação.' },
+  { id:'uc-bd', nome:'Banco de Dados', turma:'3º Período', carga:'80h', cor:'#151517', objetivo:'Realizar interação entre aplicação back-end e banco de dados com qualidade, segurança e padronização.' },
+  { id:'uc-testes', nome:'Testes de Back-End', turma:'3º Período', carga:'40h', cor:'#BDAAAD', objetivo:'Executar testes de sistemas web server-side considerando necessidades do usuário e rastreabilidade.' }
+];
+
+const initialMateriais = [
+  { id:'mat-git-01', disciplina:'uc-git', tipo:'plano', carga:'3h30min', titulo:'Aula 01 — Git, GitHub e fluxo de colaboração', desc:'Plano de aula para introduzir commits, branches, pull requests, code review e resolução de conflitos em equipe.', objetivo:'Compreender o controle de versão como prática profissional para colaboração, rastreabilidade e evolução de códigos.', competencias:'Utilizar ferramentas de versionamento em projeto de TI; desenvolver visão sistêmica de compartilhamento e evolução de códigos; praticar colaboração e responsabilidade em equipe.', roteiro:'1. Contextualização: problema de trabalhar em arquivos soltos.\n2. Demonstração: git init, add, commit e log.\n3. GitHub: repositório remoto, push e pull.\n4. Branches: criação, alteração e merge.\n5. Pull request e code review.', atividade:'Em grupos, cada aluno cria uma branch, altera uma parte do README, abre pull request e revisa o código de outro colega antes do merge.', link:'', tags:'git, github, branch, pull request, colaboração' },
+  { id:'mat-logica-01', disciplina:'uc-logica', tipo:'exerc', carga:'2h', titulo:'Lista de exercícios — Decisões e repetições em JavaScript', desc:'Exercícios progressivos para praticar if, else, while e for sem uso inicial de arrays ou objetos.', objetivo:'Aplicar estruturas de decisão e repetição na resolução de problemas computacionais simples.', competencias:'Aplicar técnicas de programação na elaboração de algoritmos; reconhecer operadores aritméticos, relacionais e lógicos; desenvolver análise crítica.', roteiro:'Exercícios divididos em aquecimento, desafios intermediários e problemas contextualizados.', atividade:'Criar programas para validar senha, simular caixa eletrônico, calcular consumo de energia, controlar estoque simples e gerar tabuadas com while.', link:'', tags:'javascript, lógica, while, for, if' },
+  { id:'mat-front-01', disciplina:'uc-front', tipo:'projeto', carga:'7h', titulo:'Projeto — Página responsiva de cafeteria', desc:'Projeto prático para trabalhar HTML semântico, CSS responsivo, formulários e organização visual de uma landing page.', objetivo:'Construir uma interface web responsiva aplicando HTML, CSS, usabilidade e organização de layout.', competencias:'Utilizar linguagem de marcação e folhas de estilo; reconhecer princípios de usabilidade; aplicar boas práticas de organização de código.', roteiro:'1. Briefing do cliente.\n2. Wireframe rápido.\n3. Estrutura HTML.\n4. Estilização com CSS.\n5. Responsividade.\n6. Apresentação e feedback.', atividade:'Cada grupo cria uma página para uma cafeteria fictícia contendo menu, seção sobre, formulário de contato e chamada para ação.', link:'', tags:'html, css, responsividade, ui, projeto' },
+  { id:'mat-apis-01', disciplina:'uc-apis', tipo:'slide', carga:'1h30min', titulo:'Slides — Consumo de APIs com fetch', desc:'Material para explicar HTTP, endpoint, JSON, status de resposta, tratamento de erros e renderização no front-end.', objetivo:'Reconhecer serviços disponíveis no servidor e consumir dados utilizando JavaScript no navegador.', competencias:'Reconhecer especificações de serviços; aplicar tratamento de falhas; compreender respostas e erros do server-side.', roteiro:'Conceito de API; método GET; JSON; fetch; then/await; try/catch; renderização no DOM; boas práticas de mensagens ao usuário.', atividade:'Consumir uma API pública e exibir cards com dados filtrados pelo usuário.', link:'', tags:'api, fetch, json, http, frontend' },
+  { id:'mat-back-01', disciplina:'uc-back', tipo:'plano', carga:'3h30min', titulo:'Aula — Introdução ao Back-End com Node.js, Express e TypeScript', desc:'Plano para apresentar arquitetura server-side, rotas, controllers, services, repositories e boas práticas de organização.', objetivo:'Compreender o papel do back-end e criar uma API inicial com rotas organizadas.', competencias:'Reconhecer linguagens server-side; aplicar métodos de desenvolvimento; gerenciar versionamento; reconhecer metodologias de desenvolvimento.', roteiro:'1. O que é back-end.\n2. Cliente x servidor.\n3. Node.js e Express.\n4. Rotas HTTP.\n5. Organização em camadas.\n6. Teste no Insomnia/Postman.', atividade:'Criar uma API simples de tarefas com rotas de listagem, cadastro, atualização e exclusão simuladas em memória.', link:'', tags:'node, express, typescript, backend, api' },
+  { id:'mat-bd-01', disciplina:'uc-bd', tipo:'plano', carga:'3h30min', titulo:'Aula — Modelo físico, DDL e DML no PostgreSQL', desc:'Plano de aula com criação de tabelas, chaves primárias, chaves estrangeiras, inserts e selects contextualizados.', objetivo:'Aplicar linguagem de definição e manipulação de dados na construção de um banco relacional.', competencias:'Aplicar DDL e DML; reconhecer entidades, atributos e relacionamentos; aplicar normalização e padronização de dados; praticar segurança básica.', roteiro:'1. Entidade, atributo e relacionamento.\n2. CREATE TABLE.\n3. PRIMARY KEY e FOREIGN KEY.\n4. INSERT.\n5. SELECT com JOIN.\n6. Atividade prática.', atividade:'Modelar e implementar um banco para restaurante japonês ou loja de brinquedos, incluindo inserts e consultas com JOIN, COUNT, SUM e AVG.', link:'', tags:'postgresql, banco de dados, ddl, dml, join' },
+  { id:'mat-bd-02', disciplina:'uc-bd', tipo:'exerc', carga:'2h', titulo:'Atividade — Agregações com GROUP BY e HAVING', desc:'Lista prática para análise de dados usando COUNT, SUM, AVG, MIN, MAX, ORDER BY, LIKE, GROUP BY e HAVING.', objetivo:'Utilizar funções de agregação para gerar relatórios e análises em banco de dados.', competencias:'Aplicar linguagem de consulta; reconhecer funcionalidades do banco; interpretar dados para tomada de decisão baseada em evidências.', roteiro:'Revisão rápida de SELECT; exemplos guiados; prática em duplas; correção coletiva.', atividade:'Criar consultas para total de vendas por cliente, média de produtos por categoria, produtos mais caros, busca por nome e filtros com HAVING.', link:'', tags:'sql, group by, having, count, sum, avg' },
+  { id:'mat-testes-01', disciplina:'uc-testes', tipo:'avaliacao', carga:'2h', titulo:'Avaliação prática — Testes unitários com Jest', desc:'Proposta de avaliação em que o aluno cria testes para funções de cálculo, validação e regra de negócio.', objetivo:'Desenvolver conjunto de testes automatizados e documentar os resultados obtidos.', competencias:'Identificar problemas por meio de testes; organizar ambiente de testes; definir roteiro; aplicar boas práticas de documentação.', roteiro:'1. Preparação do projeto.\n2. Criação de funções.\n3. Casos de teste.\n4. Execução.\n5. Relatório curto.', atividade:'Implementar testes para funções de desconto, validação de CPF fictício, cálculo de frete e verificação de estoque.', link:'', tags:'jest, testes unitários, backend, qualidade' }
+];
+
+function uid(prefix='id') { return prefix + '-' + Math.random().toString(36).slice(2, 9) + '-' + Date.now().toString(36); }
+function localData() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch { return null; } }
+function saveLocal() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ disciplinas, materiais })); }
+function savedConfig() { try { return JSON.parse(localStorage.getItem(CFG_KEY)); } catch { return null; } }
+
+window.setStartMode = function(nextMode) {
+  document.getElementById('tab-local').classList.toggle('active', nextMode === 'local');
+  document.getElementById('tab-firebase').classList.toggle('active', nextMode === 'firebase');
+  document.getElementById('local-box').classList.toggle('hidden', nextMode !== 'local');
+  document.getElementById('firebase-box').classList.toggle('hidden', nextMode !== 'firebase');
+};
+
+window.startLocal = function() {
+  mode = 'local';
+  const data = localData();
+  if (data?.disciplinas?.length) {
+    disciplinas = data.disciplinas;
+    materiais = data.materiais || [];
+  } else {
+    disciplinas = structuredClone(initialDisciplinas);
+    materiais = structuredClone(initialMateriais);
+    saveLocal();
+  }
+  enterApp('Local');
+};
+
+async function hashPassword(password) {
+  const data = new TextEncoder().encode(password);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function validateFirebasePassword(password, errorTarget = 'config-error') {
+  const clean = (password || '').trim();
+  if (clean.length < 4) {
+    showConfigError('Informe uma senha com pelo menos 4 caracteres.', errorTarget);
+    return false;
+  }
+  const currentHash = localStorage.getItem(PASS_KEY);
+  const nextHash = await hashPassword(clean);
+  if (currentHash && currentHash !== nextHash) {
+    showConfigError('Senha incorreta.', errorTarget);
+    return false;
+  }
+  if (!currentHash) localStorage.setItem(PASS_KEY, nextHash);
+  return true;
+}
+
+function cfgFrom(prefix) {
+  return {
+    apiKey: document.getElementById(prefix + 'apiKey').value.trim(),
+    authDomain: document.getElementById(prefix + 'authDomain').value.trim(),
+    projectId: document.getElementById(prefix + 'projectId').value.trim(),
+    appId: document.getElementById(prefix + 'appId').value.trim()
+  };
+}
+
+window.connectFirebase = async function() {
+  const cfg = cfgFrom('cfg-');
+  if (!cfg.apiKey || !cfg.projectId || !cfg.appId) return showConfigError('Preencha API Key, Project ID e App ID.', 'config-error');
+  const ok = await validateFirebasePassword(document.getElementById('cfg-password').value, 'config-error');
+  if (!ok) return;
+  localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
+  await startFirebase(cfg);
+};
+
+window.connectFirebaseFromModal = async function() {
+  const cfg = cfgFrom('fb-');
+  if (!cfg.apiKey || !cfg.projectId || !cfg.appId) return showConfigError('Preencha API Key, Project ID e App ID.', 'firebase-modal-error');
+  const ok = await validateFirebasePassword(document.getElementById('fb-password').value, 'firebase-modal-error');
+  if (!ok) return;
+  localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
+  await startFirebase(cfg, 'firebase-modal-error');
+  closeModals();
+  showToast('Firebase conectado.');
+};
+
+async function startFirebase(cfg, errorTarget = 'config-error') {
+  try {
+    mode = 'firebase';
+    const app = initializeApp(cfg, 'repoApp-' + Date.now());
+    db = getFirestore(app);
+    await getDocs(collection(db, 'disciplinas'));
+    enterApp('☁ Firebase');
+    listenFirebase();
+    const snap = await getDocs(collection(db, 'disciplinas'));
+    if (snap.empty) await seedData(false);
+  } catch(e) {
+    showConfigError('Erro ao conectar: ' + e.message, errorTarget);
+    localStorage.removeItem(CFG_KEY);
+  }
+}
+
+function showConfigError(msg, target = 'config-error') {
+  const el = document.getElementById(target);
+  if (!el) return alert(msg);
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function clearConfigErrors() {
+  ['config-error', 'firebase-modal-error'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = ''; el.style.display = 'none'; }
+  });
+}
+
+function enterApp(label) {
+  document.getElementById('welcome-screen').style.display = 'none';
+  document.getElementById('app-screen').style.display = 'block';
+  document.getElementById('sync-badge').textContent = label;
+  applyNavigationPreference();
+  renderNav();
+  renderContent();
+}
+
+function listenFirebase() {
+  if (unsubDisc) unsubDisc();
+  if (unsubMat) unsubMat();
+  unsubDisc = onSnapshot(query(collection(db, 'disciplinas'), orderBy('nome')), snap => {
+    disciplinas = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderNav();
+    renderContent();
+  });
+  unsubMat = onSnapshot(query(collection(db, 'materiais'), orderBy('criadoEm', 'desc')), snap => {
+    materiais = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderContent();
+  });
+}
+
+async function persistCollection(type, item) {
+  if (mode === 'firebase') {
+    setSaving(true);
+    const col = type === 'disc' ? 'disciplinas' : 'materiais';
+    await setDoc(doc(db, col, item.id), item);
+    setSaving(false);
+  } else {
+    const arr = type === 'disc' ? disciplinas : materiais;
+    const idx = arr.findIndex(x => x.id === item.id);
+    if (idx >= 0) arr[idx] = item; else arr.unshift(item);
+    saveLocal();
+    renderNav();
+    renderContent();
+  }
+}
+
+window.seedData = async function(confirmFirst = true) {
+  if (confirmFirst && !confirm('Deseja restaurar os exemplos iniciais? Isso adicionará os materiais padrão sem apagar os seus.')) return;
+  const existingDiscIds = new Set(disciplinas.map(d => d.id));
+  const existingMatIds = new Set(materiais.map(m => m.id));
+  const discs = initialDisciplinas.filter(d => !existingDiscIds.has(d.id));
+  const mats = initialMateriais.filter(m => !existingMatIds.has(m.id));
+  if (mode === 'firebase') {
+    setSaving(true);
+    for (const d of discs) await setDoc(doc(db, 'disciplinas', d.id), d);
+    for (const m of mats) await setDoc(doc(db, 'materiais', m.id), { ...m, criadoEm: Date.now() });
+    setSaving(false);
+  } else {
+    disciplinas = [...disciplinas, ...structuredClone(discs)];
+    materiais = [...structuredClone(mats), ...materiais];
+    saveLocal();
+    renderNav();
+    renderContent();
+  }
+  showToast('Exemplos adicionados ao repositório.');
+};
+
+window.renderNav = function() {
+  const list = document.getElementById('nav-list');
+  const total = `<div class="nav-item ${activeDisc === 'todos' ? 'active' : ''}" onclick="setDisc('todos')">
+    <div class="nav-dot" style="background:#CBBFC2"></div>
+    <div style="min-width:0;flex:1;"><div class="nav-title">Todos os materiais</div><div class="nav-sub">${materiais.length} itens cadastrados</div></div>
+  </div>`;
+  const items = disciplinas.map(d => {
+    const count = materiais.filter(m => m.disciplina === d.id).length;
+    return `<div class="nav-item ${activeDisc === d.id ? 'active' : ''}" onclick="setDisc('${escapeAttr(d.id)}')">
+      <div class="nav-dot" style="background:${escapeHTML(d.cor || '#BDAAAD')}"></div>
+      <div style="min-width:0;flex:1;">
+        <div class="nav-title">${escapeHTML(d.nome)}</div>
+        <div class="nav-sub">${escapeHTML(d.turma || '')} • ${count} materiais</div>
+      </div>
+      <div class="nav-actions" onclick="event.stopPropagation()">
+        <button class="icon-btn" title="Editar disciplina" onclick="openDisciplinaModal('${escapeAttr(d.id)}')">✎</button>
+        <button class="icon-btn danger" title="Excluir disciplina" onclick="deleteDisciplina('${escapeAttr(d.id)}')">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+  list.innerHTML = total + items;
+};
+
+window.setDisc = function(id) { activeDisc = id; renderNav(); renderContent(); };
+
+window.editActiveDisc = function() {
+  if (activeDisc !== 'todos') openDisciplinaModal(activeDisc);
+};
+
+window.deleteActiveDisc = function() {
+  if (activeDisc !== 'todos') deleteDisciplina(activeDisc);
+};
+window.setFilter = function(btn, f) {
+  activeFilter = f;
+  document.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderContent();
+};
+
+function visibleMaterials() {
+  const search = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
+  let base = activeDisc === 'todos' ? materiais : materiais.filter(m => m.disciplina === activeDisc);
+  if (activeFilter !== 'todos') base = base.filter(m => m.tipo === activeFilter);
+  if (search) {
+    base = base.filter(m => [m.titulo, m.desc, m.tags, m.competencias, m.objetivo, m.roteiro, m.atividade]
+      .some(v => (v || '').toLowerCase().includes(search)));
+  }
+  return base;
+}
+
+window.renderContent = function() {
+  const disc = activeDisc === 'todos' ? null : disciplinas.find(d => d.id === activeDisc);
+  const base = activeDisc === 'todos' ? materiais : materiais.filter(m => m.disciplina === activeDisc);
+  const filtered = visibleMaterials();
+
+  document.getElementById('page-title').textContent = disc ? disc.nome : 'Todos os materiais';
+  document.getElementById('page-subtitle').textContent = disc
+    ? `${disc.turma || 'Turma não informada'} • ${disc.carga || 'Carga não informada'} • ${disc.objetivo || ''}`
+    : `${disciplinas.length} disciplinas • ${materiais.length} materiais cadastrados • ${filtered.length} visíveis no filtro atual`;
+
+  const editDiscBtn = document.getElementById('edit-disc-btn');
+  const deleteDiscBtn = document.getElementById('delete-disc-btn');
+  if (editDiscBtn && deleteDiscBtn) {
+    const showDiscActions = Boolean(disc);
+    editDiscBtn.style.display = showDiscActions ? 'inline-flex' : 'none';
+    deleteDiscBtn.style.display = showDiscActions ? 'inline-flex' : 'none';
+  }
+
+  const count = tipo => base.filter(m => m.tipo === tipo).length;
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat"><div class="stat-num">${base.length}</div><div class="stat-label">Total</div></div>
+    <div class="stat"><div class="stat-num">${count('plano')}</div><div class="stat-label">Planos</div></div>
+    <div class="stat"><div class="stat-num">${count('exerc')}</div><div class="stat-label">Exercícios</div></div>
+    <div class="stat"><div class="stat-num">${count('projeto')}</div><div class="stat-label">Projetos</div></div>
+    <div class="stat"><div class="stat-num">${count('avaliacao') + count('slide')}</div><div class="stat-label">Avaliações/Slides</div></div>`;
+
+  document.getElementById('section-label').textContent = disc ? `Materiais de ${disc.nome}` : 'Materiais cadastrados';
+  const grid = document.getElementById('material-grid');
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty"><strong>Nenhum material encontrado.</strong> Ajuste os filtros ou clique em “Adicionar material” para cadastrar um novo conteúdo.</div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(cardHTML).join('');
+};
+
+function cardHTML(m) {
+  const d = disciplinas.find(x => x.id === m.disciplina) || {};
+  const info = typeInfo(m.tipo);
+  const tags = (m.tags || '').split(',').map(t => t.trim()).filter(Boolean).slice(0, 4).map(t => `<span class="pill">#${escapeHTML(t)}</span>`).join('');
+  return `<article class="card">
+    <div class="bar" style="background:${escapeHTML(d.cor || '#BDAAAD')}"></div>
+    <span class="badge ${info.cls}">${info.icon} ${info.label}</span>
+    <h3>${escapeHTML(m.titulo || 'Sem título')}</h3>
+    <p>${escapeHTML(m.desc || 'Sem descrição cadastrada.')}</p>
+    <div class="meta">
+      <span class="pill">${escapeHTML(d.nome || 'Sem disciplina')}</span>
+      ${m.carga ? `<span class="pill">⏱ ${escapeHTML(m.carga)}</span>` : ''}
+      ${tags}
+    </div>
+    ${m.competencias ? `<div class="competencias"><strong>Competências:</strong> ${escapeHTML(m.competencias).slice(0, 170)}${m.competencias.length > 170 ? '...' : ''}</div>` : ''}
+    <div class="card-actions">
+      <div class="left-actions">
+        <button class="btn btn-sm btn-primary" onclick="openDrawer('${m.id}')">Ver detalhes</button>
+        ${m.link ? `<button class="btn btn-sm" onclick="window.open('${escapeAttr(m.link)}','_blank')">Abrir link</button>` : ''}
+      </div>
+      <div class="right-actions">
+        <button class="btn btn-sm" onclick="openMaterialModal('${m.id}')">Editar</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteMaterial('${m.id}')">Excluir</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+function typeInfo(t) {
+  return {
+    slide: { icon:'📊', label:'Slides/PDF', cls:'type-slide' },
+    video: { icon:'🎥', label:'Vídeo', cls:'type-video' },
+    exerc: { icon:'📝', label:'Exercício', cls:'type-exerc' },
+    plano: { icon:'📋', label:'Plano', cls:'type-plano' },
+    projeto: { icon:'🚀', label:'Projeto', cls:'type-projeto' },
+    avaliacao: { icon:'✅', label:'Avaliação', cls:'type-avaliacao' }
+  }[t] || { icon:'📄', label:'Material', cls:'type-slide' };
+}
+
+window.openDrawer = function(id) {
+  const m = materiais.find(x => x.id === id);
+  if (!m) return;
+  const d = disciplinas.find(x => x.id === m.disciplina) || {};
+  const info = typeInfo(m.tipo);
+  document.getElementById('drawer-title').textContent = m.titulo;
+  document.getElementById('drawer-subtitle').textContent = `${info.icon} ${info.label} • ${d.nome || 'Sem disciplina'} • ${m.carga || 'Sem carga horária'}`;
+  document.getElementById('drawer-body').innerHTML = `
+    ${block('Descrição', m.desc)}
+    ${block('Objetivo', m.objetivo)}
+    ${block('Competências / capacidades', m.competencias)}
+    ${block('Conteúdo / roteiro', m.roteiro, true)}
+    ${block('Atividade prática', m.atividade, true)}
+    ${block('Tags', m.tags)}
+    ${m.link ? `<div class="detail-block"><h4>Link</h4><p><a style="color:var(--accent)" href="${escapeAttr(m.link)}" target="_blank">${escapeHTML(m.link)}</a></p></div>` : ''}
+    <div class="detail-block"><h4>Ações</h4><button class="btn btn-primary" onclick="openMaterialModal('${m.id}')">Editar este material</button></div>
+  `;
+  document.getElementById('drawer-overlay').classList.add('open');
+};
+
+function block(title, text, preserve = false) {
+  if (!text) return '';
+  const content = preserve ? escapeHTML(text).replace(/\n/g, '<br>') : escapeHTML(text);
+  return `<div class="detail-block"><h4>${title}</h4><p>${content}</p></div>`;
+}
+window.closeDrawer = function(event) {
+  if (event && event.target !== document.getElementById('drawer-overlay')) return;
+  document.getElementById('drawer-overlay').classList.remove('open');
+};
+
+window.openMaterialModal = function(id = null) {
+  const sel = document.getElementById('m-disciplina');
+  sel.innerHTML = disciplinas.map(d => `<option value="${d.id}">${escapeHTML(d.nome)} — ${escapeHTML(d.turma || '')}</option>`).join('');
+  const m = id ? materiais.find(x => x.id === id) : null;
+  document.getElementById('material-modal-title').textContent = m ? 'Editar material' : 'Adicionar material';
+  setVal('m-id', m?.id || '');
+  setVal('m-tipo', m?.tipo || 'plano');
+  setVal('m-disciplina', m?.disciplina || (activeDisc !== 'todos' ? activeDisc : disciplinas[0]?.id || ''));
+  setVal('m-carga', m?.carga || '');
+  setVal('m-titulo', m?.titulo || '');
+  setVal('m-desc', m?.desc || '');
+  setVal('m-objetivo', m?.objetivo || '');
+  setVal('m-competencias', m?.competencias || '');
+  setVal('m-roteiro', m?.roteiro || '');
+  setVal('m-atividade', m?.atividade || '');
+  setVal('m-link', m?.link || '');
+  setVal('m-tags', m?.tags || '');
+  document.getElementById('modal-material').classList.add('open');
+};
+
+window.saveMaterial = async function() {
+  const id = val('m-id') || uid('mat');
+  const titulo = val('m-titulo');
+  if (!titulo) return alert('Informe o título do material.');
+  if (!val('m-disciplina')) return alert('Crie ou selecione uma disciplina.');
+  const old = materiais.find(m => m.id === id) || {};
+  const item = {
+    id,
+    disciplina: val('m-disciplina'),
+    tipo: val('m-tipo'),
+    carga: val('m-carga'),
+    titulo,
+    desc: val('m-desc'),
+    objetivo: val('m-objetivo'),
+    competencias: val('m-competencias'),
+    roteiro: val('m-roteiro'),
+    atividade: val('m-atividade'),
+    link: val('m-link'),
+    tags: val('m-tags'),
+    criadoEm: old.criadoEm || Date.now(),
+    atualizadoEm: Date.now()
+  };
+  await persistCollection('mat', item);
+  closeModals();
+  showToast(old.id ? 'Material atualizado.' : 'Material cadastrado.');
+};
+
+window.deleteMaterial = async function(id) {
+  if (!confirm('Deseja excluir este material?')) return;
+  if (mode === 'firebase') {
+    setSaving(true);
+    await deleteDoc(doc(db, 'materiais', id));
+    setSaving(false);
+  } else {
+    materiais = materiais.filter(m => m.id !== id);
+    saveLocal();
+    renderContent();
+  }
+  showToast('Material excluído.');
+};
+
+window.openDisciplinaModal = function(id = null) {
+  const d = id ? disciplinas.find(x => x.id === id) : null;
+  document.getElementById('disc-modal-title').textContent = d ? 'Editar disciplina' : 'Nova disciplina';
+  setVal('d-id', d?.id || '');
+  setVal('d-nome', d?.nome || '');
+  setVal('d-turma', d?.turma || '');
+  setVal('d-carga', d?.carga || '');
+  setVal('d-cor', d?.cor || '#BDAAAD');
+  setVal('d-objetivo', d?.objetivo || '');
+  document.getElementById('modal-disciplina').classList.add('open');
+};
+
+window.saveDisciplina = async function() {
+  const nome = val('d-nome');
+  if (!nome) return alert('Informe o nome da disciplina.');
+  const id = val('d-id') || uid('uc');
+  const item = { id, nome, turma: val('d-turma'), carga: val('d-carga'), cor: val('d-cor'), objetivo: val('d-objetivo') };
+  await persistCollection('disc', item);
+  closeModals();
+  showToast('Disciplina salva.');
+};
+
+window.deleteDisciplina = async function(id) {
+  const disciplina = disciplinas.find(d => d.id === id);
+  if (!disciplina) return;
+
+  const materiaisDaDisciplina = materiais.filter(m => m.disciplina === id);
+  const avisoMateriais = materiaisDaDisciplina.length
+    ? `\n\nAtenção: também serão excluídos ${materiaisDaDisciplina.length} material(is) vinculado(s) a esta disciplina.`
+    : '';
+
+  if (!confirm(`Deseja excluir a disciplina "${disciplina.nome}"?${avisoMateriais}`)) return;
+
+  if (mode === 'firebase') {
+    setSaving(true);
+    await deleteDoc(doc(db, 'disciplinas', id));
+    for (const material of materiaisDaDisciplina) {
+      await deleteDoc(doc(db, 'materiais', material.id));
+    }
+    setSaving(false);
+  } else {
+    disciplinas = disciplinas.filter(d => d.id !== id);
+    materiais = materiais.filter(m => m.disciplina !== id);
+    saveLocal();
+  }
+
+  if (activeDisc === id) activeDisc = 'todos';
+  closeModals();
+  renderNav();
+  renderContent();
+  showToast('Disciplina excluída.');
+};
+
+window.closeModals = function() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')); clearConfigErrors(); };
+document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) closeModals(); }));
+
+window.openFirebaseModal = function() {
+  clearConfigErrors();
+  const cfg = savedConfig() || {};
+  setVal('fb-apiKey', cfg.apiKey || '');
+  setVal('fb-authDomain', cfg.authDomain || '');
+  setVal('fb-projectId', cfg.projectId || '');
+  setVal('fb-appId', cfg.appId || '');
+  setVal('fb-password', '');
+  const status = document.getElementById('firebase-status-text');
+  status.textContent = mode === 'firebase'
+    ? 'Firebase conectado. Informe a senha para atualizar as credenciais ou desconectar.'
+    : 'Firebase desconectado. Preencha as credenciais e informe a senha para conectar.';
+  document.getElementById('modal-firebase').classList.add('open');
+};
+
+window.disconnectFirebase = async function() {
+  const ok = await validateFirebasePassword(document.getElementById('fb-password').value, 'firebase-modal-error');
+  if (!ok) return;
+  if (unsubDisc) unsubDisc();
+  if (unsubMat) unsubMat();
+  unsubDisc = null;
+  unsubMat = null;
+  localStorage.removeItem(CFG_KEY);
+  db = null;
+  window.startLocal();
+  closeModals();
+  showToast('Firebase desconectado. O repositório voltou para o modo local.');
+};
+
+window.resetAll = async function() {
+  if (!confirm('Deseja limpar os dados locais, configurações do Firebase e voltar para a tela inicial?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(CFG_KEY);
+  localStorage.removeItem(PASS_KEY);
+  location.reload();
+};
+
+window.copyVisibleSummary = async function() {
+  const lines = visibleMaterials().map(m => {
+    const d = disciplinas.find(x => x.id === m.disciplina)?.nome || 'Sem disciplina';
+    return `- ${m.titulo} (${d}, ${m.carga || 'sem carga'}): ${m.desc || ''}`;
+  }).join('\n');
+  const text = `Resumo dos materiais visíveis:\n${lines || 'Nenhum material visível.'}`;
+  await navigator.clipboard.writeText(text);
+  showToast('Resumo copiado para a área de transferência.');
+};
+
+function setSaving(v) {
+  const el = document.getElementById('sync-badge');
+  el.classList.toggle('saving', v);
+  el.textContent = v ? '↻ Salvando...' : (mode === 'firebase' ? '☁ Firebase conectado' : 'Local');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+function val(id) { return document.getElementById(id).value.trim(); }
+function setVal(id, v) { document.getElementById(id).value = v ?? ''; }
+function escapeHTML(str = '') { return String(str).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+function escapeAttr(str = '') { return escapeHTML(str).replace(/`/g, '&#96;'); }
+
+const cfg = savedConfig();
+if (cfg) {
+  setStartMode('firebase');
+  document.getElementById('cfg-apiKey').value = cfg.apiKey || '';
+  document.getElementById('cfg-authDomain').value = cfg.authDomain || '';
+  document.getElementById('cfg-projectId').value = cfg.projectId || '';
+  document.getElementById('cfg-appId').value = cfg.appId || '';
+  const pass = document.getElementById('cfg-password');
+  if (pass) pass.value = '';
+
+  // Mantém o Firebase conectado ao recarregar a página.
+  // As credenciais ficam salvas no localStorage e a senha continua sendo exigida
+  // apenas para conectar, alterar ou desconectar as configurações.
+  startFirebase(cfg);
+}
+
+</script>
+</body>
+</html>
